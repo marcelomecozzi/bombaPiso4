@@ -189,6 +189,22 @@ def web_page():
     </html>
     """
     return html
+    # This version assumes you have a 'template.html' file.
+    # This is a more maintainable approach.
+    try:
+        with open('template.html', 'r') as f:
+            html_template = f.read()
+
+        # Get current relay state
+        relay_state_value = str(relay_pin.value()) # "1" for ON, "0" for OFF
+
+        # Replace the placeholder with the actual state
+        html_response = html_template.replace('[[RELAY_STATE]]', relay_state_value)
+
+        return html_response
+    except OSError as e:
+        print(f"Error reading template file: {e}")
+        return "<html><body><h1>Error</h1><p>Could not load web page template.</p></body></html>"
 
 def serve_requests(connection):
     try:
