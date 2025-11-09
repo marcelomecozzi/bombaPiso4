@@ -1,0 +1,83 @@
+<html>
+	<script>
+		//alert(window.location.href)
+		//if(window.location.href.indexOf('/o') > 0)
+		//	window.location.href = '/'
+		//history.replaceState("","/")
+		// Update the URL in the browser's history
+		history.replaceState(null, '', '/');
+	</script>
+	<head>
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Bomba 4to. Piso</title>
+		<style>
+			body { font-family: Arial, sans-serif; text-align: center; }
+			.submit {
+				border: none;
+				color: white;
+				padding: 15px 32px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 30px;
+				margin: 4px 2px;
+				cursor: pointer;
+				border-radius: 8px;
+				font-color: white;
+				font-weight: bold;
+				width: 250px;
+				height: 150px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Bomba 4to. Piso</h1>
+		<h2>Control de encendido</h2>
+		<p>Estado actual de la Bomba: <strong id="statusText" style="font-size: 20px; font-weight:bold; color: white"></strong></p>
+
+		<input id="on" type="button" value="Prender&#x000A;Bomba"  onclick="operate(this)"/>
+	
+		<input id="off" type="button" value="Apagar&#x000A;Bomba"  onclick="operate(this)"/>
+
+		<script>
+		function operate(el) {
+			document.getElementById('on').disabled = true;
+			document.getElementById('off').disabled = true;
+			window.location.href = '/?op='+ (el.id) + '&rnd=' + Date.now();
+		}
+		
+		function formatElements(){
+			if (relay_state == "1"){
+				document.getElementById('on').disabled = true;
+				document.getElementById('off').disabled = false;
+				document.getElementById('on').style.backgroundColor = 'gray';
+				document.getElementById('off').style.backgroundColor = 'red';
+				document.getElementById('on').style.cursor = 'not-allowed';
+				document.getElementById('off').style.cursor = 'auto';
+				document.getElementById('statusText').textContent = 'ENCENDIDO';
+				document.getElementById('statusText').style.backgroundColor= 'green';
+				
+			}
+			else{
+				document.getElementById('off').disabled = true;
+				document.getElementById('on').disabled = false;
+				document.getElementById('off').style.backgroundColor = 'gray';
+				document.getElementById('on').style.backgroundColor = 'green';
+				document.getElementById('off').style.cursor = 'not-allowed';
+				document.getElementById('on').style.cursor = 'auto';
+				document.getElementById('statusText').textContent = 'APAGADO';
+				document.getElementById('statusText').style.backgroundColor= 'red';				
+			}
+		}
+		var relay_state = "[[RELAY_STATE]]";
+		
+		
+		window.onload = function() {
+			formatElements();
+		}
+		</script>
+	</body>
+</html>
